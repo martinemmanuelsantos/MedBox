@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">MedBox</string>
+    <string name="action_settings">Settings</string>
+    <color name="white">#FFFFFF</color>
+    <string-array name="dosage_intervals">
+        <item>One Time Dose</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+    <string-array name="durations">
+        <item>One day</item>
+        <item>Two days</item>
+        <item>Three days</item>
+        <item>One week</item>
+        <item>Two weeks</item>
+        <item>Three weeks</item>
+        <item>One month</item>
+        <item>Two months</item>
+        <item>Three months</item>
+        <item>6 months</item>
+        <item>1 year</item>
+        <item>Indefinitely</item>
+        <item>Set custom duration</item>
+    </string-array>
+    <string-array name="dosage_types">
+        <item>Capsule</item>
+        <item>Cup</item>
+        <item>Drop</item>
+        <item>Grams</item>
+        <item>Injections</item>
+        <item>Pills</item>
+        <item>Sprays</item>
+        <item>Tablets</item>
+        <item>Teaspoons</item>
+    </string-array>
+    <string-array name="method_taken_names">
+        <item>Oral</item>
+        <item>Topical</item>
+        <item>Sublingual</item>
+        <item>Inhalation</item>
+        <item>Injection</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="instruction_names">
+        <item>Before food</item>
+        <item>After food</item>
+        <item>With food</item>
+        <item>None</item>
+    </string-array>
+</resources>
