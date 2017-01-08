@@ -19,29 +19,40 @@
         android:layout_height="0px"
         android:layout_weight="8">
 
-        <TextView
-            android:text="DATE/TIME"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/textview_main_date"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
         <fragment
             android:layout_width="match_parent"
-            android:name="com.martinemmanuelsantos.medbox.NextMedicationFragment"
-            android:id="@+id/fragment"
-            tools:layout="@layout/fragment_next_medication"
-            android:layout_below="@+id/textview_main_date"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="24dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:name="com.martinemmanuelsantos.medbox.CurrentDateTimeFragment"
+            android:id="@+id/fragment3"
+            tools:layout="@layout/fragment_current_date_time" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <fragment
+                android:layout_width="match_parent"
+                android:name="com.martinemmanuelsantos.medbox.NextMedicationFragment"
+                android:id="@+id/fragment"
+                tools:layout="@layout/fragment_next_medication"
+                android:layout_below="@+id/textview_main_date"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -56,21 +67,24 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/button_main_medicine_log" />
+            android:id="@+id/button_main_medicine_log"
+            style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
             android:text="MEDICINE LIST"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/button_main_medicine_list" />
+            android:id="@+id/button_main_medicine_list"
+            style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
             android:text="ADD MEDICINE"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:id="@+id/button_main_add_medicine"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored" />
 
     </LinearLayout>
 

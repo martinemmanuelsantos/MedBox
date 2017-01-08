@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button btnMedicineLog, btnMedicineList, btnAddMedicine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createButtons() {
-        Button btnAddMedicine = (Button) findViewById(R.id.button_main_add_medicine);
+
+        btnMedicineLog = (Button) findViewById(R.id.button_main_medicine_log);
+        btnMedicineList = (Button) findViewById(R.id.button_main_medicine_list);
+        btnAddMedicine = (Button) findViewById(R.id.button_main_add_medicine);
+
+        btnMedicineLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create MedicineLogActivity.class and activity_medicine_log.xml
+                Toast.makeText(getApplicationContext(), "Create MedicineLogActivity.class and activity_medicine_log.xml", Toast.LENGTH_LONG).show();;
+            }
+        });
+
+        btnMedicineList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create MedicineListActivity.class and activity_medicine_list.xml
+                Toast.makeText(getApplicationContext(), "Create MedicineListActivity.class and activity_medicine_list.xml", Toast.LENGTH_LONG).show();;
+            }
+        });
+
         btnAddMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,5 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
+
 }

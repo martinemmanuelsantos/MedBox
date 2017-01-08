@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">MedBox</string>
     <string name="action_settings">Settings</string>
-    <color name="white">#FFFFFF</color>
     <string-array name="dosage_intervals">
         <item>One Time Dose</item>
         <item>Daily</item>
@@ -23,16 +22,17 @@
         <item>Indefinitely</item>
         <item>Set custom duration</item>
     </string-array>
-    <string-array name="dosage_types">
-        <item>Capsule</item>
-        <item>Cup</item>
-        <item>Drop</item>
-        <item>Grams</item>
-        <item>Injections</item>
-        <item>Pills</item>
-        <item>Sprays</item>
-        <item>Tablets</item>
-        <item>Teaspoons</item>
+    <string-array name="dose_types">
+        <item>Capsule(s)</item>
+        <item>Cup(s)</item>
+        <item>Drop(s)</item>
+        <item>Injection(s)</item>
+        <item>Pill(s)</item>
+        <item>Puff(s)</item>
+        <item>Spray(s)</item>
+        <item>Tablet(s)</item>
+        <item>Teaspoon(s)</item>
+        <item>Other</item>
     </string-array>
     <string-array name="method_taken_names">
         <item>Oral</item>
