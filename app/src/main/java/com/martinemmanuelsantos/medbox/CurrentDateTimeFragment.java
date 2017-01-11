@@ -9,17 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CurrentDateTimeFragment extends Fragment {
-    TextView textviewDayNumber;
-    TextView textviewMonthYear;
-    TextView textviewDay;
+    TextView textViewDayNumber, textViewMonthYear, textViewDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_current_date_time, container, false);
 
-        textviewDayNumber = (TextView) view.findViewById(R.id.fragment_current_date_time_day_num);
-        textviewMonthYear = (TextView) view.findViewById(R.id.fragment_current_date_time_month_year);
-        textviewDay = (TextView) view.findViewById(R.id.fragment_current_date_time_day);
+        textViewDayNumber = (TextView) view.findViewById(R.id.text_view_current_date_time_day_num);
+        textViewMonthYear = (TextView) view.findViewById(R.id.text_view_current_date_time_month_year);
+        textViewDay = (TextView) view.findViewById(R.id.text_view_current_date_time_day);
 
         updateDateTime();
 
@@ -30,9 +28,9 @@ public class CurrentDateTimeFragment extends Fragment {
 
         DateTimeHelper date = new DateTimeHelper();
 
-        textviewDayNumber.setText(Integer.toString(date.day));
-        textviewMonthYear.setText(date.monthFormatted + ", " + date.year);
-        textviewDay.setText(date.dayFormatted + ", " + date.time);
+        textViewDayNumber.setText(Integer.toString(date.day));
+        textViewMonthYear.setText(date.monthFormatted + ", " + date.year);
+        textViewDay.setText(date.dayFormatted + ", " + date.time);
 
     }
 

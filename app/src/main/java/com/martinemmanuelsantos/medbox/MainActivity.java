@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnMedicineLog, btnMedicineList, btnAddMedicine;
+    /* UI Elements */
+    private Button buttonMedicineLog, buttonMedicineList, buttonAddMedicine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +45,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //region Create UI elements and set listeners
+
     private void createButtons() {
 
-        btnMedicineLog = (Button) findViewById(R.id.button_main_medicine_log);
-        btnMedicineList = (Button) findViewById(R.id.button_main_medicine_list);
-        btnAddMedicine = (Button) findViewById(R.id.button_main_add_medicine);
+        buttonMedicineLog = (Button) findViewById(R.id.button_main_medicine_log);
+        buttonMedicineList = (Button) findViewById(R.id.button_main_medicine_list);
+        buttonAddMedicine = (Button) findViewById(R.id.button_main_add_medicine);
 
-        btnMedicineLog.setOnClickListener(new View.OnClickListener() {
+        buttonMedicineLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Create MedicineLogActivity.class and activity_medicine_log.xml
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnMedicineList.setOnClickListener(new View.OnClickListener() {
+        buttonMedicineList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Create MedicineListActivity.class and activity_medicine_list.xml
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnAddMedicine.setOnClickListener(new View.OnClickListener() {
+        buttonAddMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddMedicationActivity.class);
@@ -75,5 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    //endregion
 
 }

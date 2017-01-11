@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            android:id="@+id/image_button_add_times_subtract"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" />
+
+        <EditText
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:id="@+id/edit_text_add_times_dose_count"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="1" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            android:id="@+id/image_button_add_times_add"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/edit_text_add_times_dose_time"
+        android:layout_weight="12"
+        android:gravity="center"
+        android:focusableInTouchMode="false" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:id="@+id/image_button_add_times_delete_row"
+        android:background="@android:color/transparent"
+        android:onClick="onDeleteDoseTimeClicked"
+        android:layout_weight="1" />
+
+</LinearLayout>

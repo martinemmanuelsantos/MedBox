@@ -33,7 +33,7 @@
             android:text="00:00 MIN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_next_medication_countdown"
+            android:id="@+id/text_view_next_medication_countdown"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -45,14 +45,14 @@
             android:text="MEDICATION NAME"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_next_medication_medication"
+            android:id="@+id/text_view_next_medication_medication"
             android:textAlignment="center" />
 
         <TextView
             android:text="DOSE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_next_medication_dose"
+            android:id="@+id/text_view_next_medication_dose"
             android:textAlignment="center" />
 
     </LinearLayout>

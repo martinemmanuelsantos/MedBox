@@ -2,9 +2,6 @@ package com.martinemmanuelsantos.medbox;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -28,21 +25,23 @@ import java.io.File;
 
 public class AddMedicationActivity extends AppCompatActivity {
 
+    /* Constants */
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private TextView textviewTotalSupplyUnits, textviewLowSupplyUnits;
-    private ImageView imageviewIcon;
+    /* UI Elements */
+    private EditText editTextTotalSupply, editTextLowSupply;
+    private TextView textViewTotalSupplyUnits, textViewLowSupplyUnits;
+    private ImageView imageViewIcon;
     private Spinner spinnerDoseType, spinnerMethodTaken, spinnerInstruction;
     private Switch switchPrescription;
-    private Button btnAddMedicine;
+    private Button buttonNextActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medication);
 
-
-        // createEditTexts();
+        createEditTexts();
         createTextViews();
         createImageView();
         createSpinners();
@@ -72,17 +71,25 @@ public class AddMedicationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void createTextViews() {
+    //region Create UI elements and set listeners
 
-        textviewTotalSupplyUnits = (TextView) findViewById(R.id.textview_add_medication_total_supply_units);
-        textviewLowSupplyUnits = (TextView) findViewById(R.id.textview_add_medication_low_supply_units);
+    private void createEditTexts() {
+
+        editTextTotalSupply = (EditText) findViewById(R.id.edit_text_add_medication_total_supply);
+        editTextLowSupply = (EditText) findViewById(R.id.edit_text_add_medication_low_supply);
 
     }
 
-    private void createImageView() {
-        imageviewIcon = (ImageView) findViewById(R.id.imageview_add_medication_icon);
+    private void createTextViews() {
 
-        imageviewIcon.setOnClickListener(new View.OnClickListener() {
+        textViewTotalSupplyUnits = (TextView) findViewById(R.id.text_view_add_medication_total_supply_units);
+        textViewLowSupplyUnits = (TextView) findViewById(R.id.text_view_add_medication_low_supply_units);
+    }
+
+    private void createImageView() {
+        imageViewIcon = (ImageView) findViewById(R.id.image_view_add_medication_icon);
+
+        imageViewIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -107,8 +114,8 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                textviewTotalSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
-                textviewLowSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
+                textViewTotalSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
+                textViewLowSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
             }
 
             @Override
@@ -127,16 +134,24 @@ public class AddMedicationActivity extends AppCompatActivity {
 
     private void createButton() {
 
-        btnAddMedicine = (Button) findViewById(R.id.button_add_medicine_next);
-        btnAddMedicine.setOnClickListener(new View.OnClickListener() {
+        buttonNextActivity = (Button) findViewById(R.id.button_add_medicine_next);
+        buttonNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // TODO: Write data from this activity into database then move on to next activity
+
                 Intent intent = new Intent(AddMedicationActivity.this, MedicationScheduleActivity.class);
                 startActivity(intent);
+
             }
         });
 
     }
+
+    //endregion
+
+    //region Camera Helper Methods
 
     private File getFile() {
         File folder = new File("sdcard/camera_app");
@@ -153,7 +168,10 @@ public class AddMedicationActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageviewIcon.setImageBitmap(imageBitmap);
+            imageViewIcon.setImageBitmap(imageBitmap);
         }
     }
+
+    //endregion
+
 }

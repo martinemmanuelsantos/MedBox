@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by nutel on 1/8/2017.
+ * Helper class for formatting dates
  */
 
 public class DateTimeHelper {
@@ -45,6 +45,18 @@ public class DateTimeHelper {
     public String getFormattedDate() {
 
         return dayFormatted + ", " + monthFormatted + " " + day + ", " + year;
+    }
+
+    public static String getTimeFormatted(int hourOfDay, int minute) {
+        String AM_PM ;
+        if(hourOfDay < 12) {
+            AM_PM = "AM";
+        } else {
+            AM_PM = "PM";
+            hourOfDay = hourOfDay - 12;
+        }
+
+        return hourOfDay + ":" + minute + " " + AM_PM;
     }
 
     public int getDay() {

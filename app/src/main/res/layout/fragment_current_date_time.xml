@@ -18,7 +18,7 @@
             android:textSize="50sp"
             android:textAlignment="viewEnd"
             android:paddingRight="10dp"
-            android:id="@+id/fragment_current_date_time_day_num" />
+            android:id="@+id/text_view_current_date_time_day_num" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:text="January 2017"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/fragment_current_date_time_month_year"
+            android:id="@+id/text_view_current_date_time_month_year"
             android:gravity="center"
             android:layout_weight="1"
             android:textSize="24sp"
@@ -42,7 +42,7 @@
             android:text="Sunday"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/fragment_current_date_time_day"
+            android:id="@+id/text_view_current_date_time_day"
             android:gravity="center"
             android:layout_weight="1"
             android:textSize="20sp"

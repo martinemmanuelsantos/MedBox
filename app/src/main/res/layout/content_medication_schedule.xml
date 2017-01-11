@@ -13,12 +13,14 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:animateLayoutChanges="true" >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true" >
 
             <TextView
                 android:text="Start Day"
@@ -33,13 +35,15 @@
                 android:id="@+id/edit_text_medication_schedule_start_date"
                 android:clickable="false"
                 android:contextClickable="false"
-                android:editable="false" />
+                android:editable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:text="How often?"
@@ -50,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_medication_schedule_interval"
-                android:padding="10dp"
+                android:padding="@dimen/element_margin"
                 android:entries="@array/dosage_intervals"
                 android:spinnerMode="dialog" />
 
@@ -60,7 +64,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/linear_layout_medication_schedule_weekdays">
+            android:animateLayoutChanges="true"
+            android:id="@+id/linear_layout_medication_schedule_weekdays"
+            android:visibility="gone">
 
             <TextView
                 android:text="Weekdays"
@@ -75,54 +81,69 @@
                 android:id="@+id/edit_text_medication_schedule_weekdays"
                 android:clickable="false"
                 android:contextClickable="false"
-                android:editable="false" />
+                android:editable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/linear_layout_medication_schedule_monthdays">
+            android:animateLayoutChanges="true"
+            android:id="@+id/linear_layout_medication_schedule_monthdays"
+            android:visibility="gone">
 
             <TextView
                 android:text="Days of the Month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:ems="10"
-            android:id="@+id/edit_text_medication_schedule_monthdays"
-            android:clickable="false"
-            android:contextClickable="false"
-            android:editable="false" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:text="Time(s)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="MULTI-SELECT SPINNER"
-                android:id="@+id/edit_text_medication_schedule_times" />
+                android:inputType="none"
+                android:ems="10"
+                android:id="@+id/edit_text_medication_schedule_monthdays"
+                android:clickable="false"
+                android:contextClickable="false"
+                android:editable="false"
+                android:focusableInTouchMode="false" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <TextView
+                android:text="Time(s)"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:id="@+id/linear_layout_add_times_rows">
+
+                <Button
+                    android:text="Add Dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_add_medication_add_dose"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:text="Duration"
@@ -134,7 +155,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_medication_schedule_duration"
                 android:entries="@array/durations"
-                android:spinnerMode="dialog" />
+                android:spinnerMode="dialog"
+                android:layout_margin="@dimen/element_margin" />
 
         </LinearLayout>
 
@@ -145,7 +167,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <Switch
                 android:text="Alert"
@@ -153,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/switch_medication_schedule_alert"
                 android:layout_weight="2"
-                android:padding="10dp" />
+                android:padding="@dimen/element_margin" />
 
             <Switch
                 android:text="Snooze"
@@ -161,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/switch_medication_schedule_snooze"
                 android:layout_weight="2"
-                android:padding="10dp" />
+                android:padding="@dimen/element_margin" />
 
         </LinearLayout>
 

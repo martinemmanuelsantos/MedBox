@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:name="com.martinemmanuelsantos.medbox.CurrentDateTimeFragment"
-            android:id="@+id/fragment3"
+            android:id="@+id/fragment_main_date"
             tools:layout="@layout/fragment_current_date_time" />
 
         <LinearLayout
@@ -34,9 +34,9 @@
             <fragment
                 android:layout_width="match_parent"
                 android:name="com.martinemmanuelsantos.medbox.NextMedicationFragment"
-                android:id="@+id/fragment"
+                android:id="@+id/fragment_next_medication"
                 tools:layout="@layout/fragment_next_medication"
-                android:layout_below="@+id/textview_main_date"
+                android:layout_below="@+id/text_view_main_date"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="24dp"
