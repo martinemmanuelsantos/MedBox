@@ -11,15 +11,15 @@
 
     <!-- AddMedicationActivity-->
     <string-array name="dose_types">
-        <item>Capsule(s)</item>
-        <item>Cup(s)</item>
-        <item>Drop(s)</item>
-        <item>Injection(s)</item>
-        <item>Pill(s)</item>
-        <item>Puff(s)</item>
-        <item>Spray(s)</item>
-        <item>Tablet(s)</item>
-        <item>Teaspoon(s)</item>
+        <item>Capsules</item>
+        <item>Cups</item>
+        <item>Drops</item>
+        <item>Injections</item>
+        <item>Pills</item>
+        <item>Puffs</item>
+        <item>Sprays</item>
+        <item>Tablets</item>
+        <item>Teaspoons</item>
         <item>Other</item>
     </string-array>
     <string-array name="method_taken_names">
@@ -31,10 +31,10 @@
         <item>Other</item>
     </string-array>
     <string-array name="instruction_names">
+        <item>No Instruction</item>
         <item>Before food</item>
         <item>After food</item>
         <item>With food</item>
-        <item>None</item>
     </string-array>
 
     <!-- MedicationScheduleActivity-->
@@ -85,21 +85,6 @@
         <item>29</item>
         <item>30</item>
         <item>31</item>
-    </string-array>
-    <string-array name="durations">
-        <item>One day</item>
-        <item>Two days</item>
-        <item>Three days</item>
-        <item>One week</item>
-        <item>Two weeks</item>
-        <item>Three weeks</item>
-        <item>One month</item>
-        <item>Two months</item>
-        <item>Three months</item>
-        <item>6 months</item>
-        <item>1 year</item>
-        <item>Indefinitely</item>
-        <item>Set custom duration</item>
     </string-array>
 
 

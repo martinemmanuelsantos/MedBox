@@ -51,12 +51,14 @@ public class DateTimeHelper {
         String AM_PM ;
         if(hourOfDay < 12) {
             AM_PM = "AM";
+        } else if(hourOfDay == 12) {
+            AM_PM = "PM";
         } else {
             AM_PM = "PM";
             hourOfDay = hourOfDay - 12;
         }
 
-        return hourOfDay + ":" + minute + " " + AM_PM;
+        return hourOfDay + ":" + String.format("%02d", minute) + " " + AM_PM;
     }
 
     public int getDay() {

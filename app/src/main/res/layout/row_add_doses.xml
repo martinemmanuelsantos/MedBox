@@ -46,7 +46,8 @@
         android:id="@+id/edit_text_add_times_dose_time"
         android:layout_weight="12"
         android:gravity="center"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:hint="Tap to set time" />
 
     <ImageButton
         android:layout_width="wrap_content"

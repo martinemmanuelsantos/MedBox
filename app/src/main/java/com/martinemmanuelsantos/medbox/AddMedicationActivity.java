@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,11 +31,11 @@ public class AddMedicationActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     /* UI Elements */
-    private EditText editTextTotalSupply, editTextLowSupply;
+    private EditText editTextCustomUnits, editTextTotalSupply, editTextLowSupply;
     private TextView textViewTotalSupplyUnits, textViewLowSupplyUnits;
     private ImageView imageViewIcon;
     private Spinner spinnerDoseType, spinnerMethodTaken, spinnerInstruction;
-    private Switch switchPrescription;
+    private Switch switchPrescription, switchLowSupplyWarning;
     private Button buttonNextActivity;
 
     @Override
@@ -75,8 +77,28 @@ public class AddMedicationActivity extends AppCompatActivity {
 
     private void createEditTexts() {
 
+        editTextCustomUnits = (EditText) findViewById(R.id.edit_text_add_medication_custom_units);
         editTextTotalSupply = (EditText) findViewById(R.id.edit_text_add_medication_total_supply);
         editTextLowSupply = (EditText) findViewById(R.id.edit_text_add_medication_low_supply);
+
+        // Change the appropriate TextViews when a custom unit is entered
+        editTextCustomUnits.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                textViewTotalSupplyUnits.setText(charSequence);
+                textViewLowSupplyUnits.setText(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 
@@ -84,11 +106,14 @@ public class AddMedicationActivity extends AppCompatActivity {
 
         textViewTotalSupplyUnits = (TextView) findViewById(R.id.text_view_add_medication_total_supply_units);
         textViewLowSupplyUnits = (TextView) findViewById(R.id.text_view_add_medication_low_supply_units);
+
     }
 
     private void createImageView() {
+
         imageViewIcon = (ImageView) findViewById(R.id.image_view_add_medication_icon);
 
+        // Create an intent to launch the default camera app
         imageViewIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,10 +121,9 @@ public class AddMedicationActivity extends AppCompatActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-
-                Toast.makeText(getApplicationContext(), "You are a fucking homo", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     private void createSpinners() {
@@ -108,20 +132,27 @@ public class AddMedicationActivity extends AppCompatActivity {
         spinnerMethodTaken = (Spinner) findViewById(R.id.spinner_add_medication_method_taken);
         spinnerInstruction = (Spinner) findViewById(R.id.spinner_add_medication_instruction);
 
-        /*ArrayAdapter adapterDoseType = ArrayAdapter.createFromResource(this, R.array.dose_types, android.R.layout.simple_spinner_item);
-        spinnerDoseType.setAdapter(adapterDoseType);*/
+        // Set the units on the appropriate TextViews as the dose type is changed
         spinnerDoseType.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                textViewTotalSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
-                textViewLowSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
+                // If "Other" is selected, show the custom dose unit EditText, otherwise hide it
+                // and set the text to the spinner value
+                if (spinnerDoseType.getSelectedItem().toString().equals("Other")) {
+                    findViewById(R.id.edit_text_add_medication_custom_units).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.edit_text_add_medication_custom_units).setVisibility(View.INVISIBLE);
+                    textViewTotalSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
+                    textViewLowSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
+
         });
 
     }
@@ -129,18 +160,33 @@ public class AddMedicationActivity extends AppCompatActivity {
     private void createSwitch() {
 
         switchPrescription = (Switch) findViewById(R.id.switch_add_medication_prescription);
+        switchLowSupplyWarning = (Switch) findViewById(R.id.switch_add_medication_low_supply_warning);
+
+        // Control the visibility of the low supply value EditText
+        switchLowSupplyWarning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (switchLowSupplyWarning.isChecked()) {
+                    findViewById(R.id.linear_layout_add_medication_low_supply_value).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.linear_layout_add_medication_low_supply_value).setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 
     private void createButton() {
 
         buttonNextActivity = (Button) findViewById(R.id.button_add_medicine_next);
+
         buttonNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 // TODO: Write data from this activity into database then move on to next activity
 
+                // Go to the MedicationScheduleActivity
                 Intent intent = new Intent(AddMedicationActivity.this, MedicationScheduleActivity.class);
                 startActivity(intent);
 
@@ -152,16 +198,6 @@ public class AddMedicationActivity extends AppCompatActivity {
     //endregion
 
     //region Camera Helper Methods
-
-    private File getFile() {
-        File folder = new File("sdcard/camera_app");
-
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-
-        return new File(folder,"image.jpg");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -22,7 +22,8 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
                 <TextView
                     android:text="Medication Name"
@@ -34,34 +35,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
-                android:id="@+id/edit_text_add_medication_name" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            android:id="@+id/image_view_add_medication_icon"
-            android:layout_height="200sp" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4">
-
-            <TextView
-                android:text="Type of Dose"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner_add_medication_dose_type"
-                android:entries="@array/dose_types"
-                android:padding="10dp"
-                android:spinnerMode="dialog" />
+                android:id="@+id/edit_text_add_medication_name"
+                android:hint="Medication Name" />
 
         </LinearLayout>
 
@@ -69,7 +44,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="4"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
             <TextView
                     android:text="Prescription"
@@ -85,11 +61,58 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            android:id="@+id/image_view_add_medication_icon"
+            android:layout_height="200sp" />
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4">
+            android:layout_weight="4"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+
+            <TextView
+                android:text="Type of Dose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_add_medication_dose_type"
+                    android:entries="@array/dose_types"
+                    android:padding="10dp"
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/edit_text_add_medication_custom_units"
+                    android:visibility="invisible"
+                    android:hint="Custom dose unit"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
             <TextView
                 android:text="Total Supply"
@@ -110,7 +133,8 @@
                     android:id="@+id/edit_text_add_medication_total_supply"
                     android:inputType="number"
                     android:layout_weight="3"
-                    android:gravity="center" />
+                    android:gravity="right|center"
+                    android:hint="Enter total supply" />
 
                 <TextView
                     android:layout_height="match_parent"
@@ -124,47 +148,52 @@
                     android:contextClickable="false"
                     android:layout_width="0dp"
                     android:gravity="center" />
+
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:text="Alert me when my supply is less than:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="4">
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:inputType="textPersonName|number"
-                    android:ems="10"
-                    android:id="@+id/edit_text_add_medication_low_supply"
-                    android:layout_weight="3"
-                    android:textAlignment="center"
-                    android:gravity="center" />
+                <Switch
+                    android:text="Alert me when supply is slow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switch_add_medication_low_supply_warning"
+                    android:padding="@dimen/element_margin" />
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="UNITS"
-                    android:inputType="none"
-                    android:ems="10"
-                    android:id="@+id/text_view_add_medication_low_supply_units"
-                    android:layout_weight="2"
-                    android:textAlignment="center"
-                    android:clickable="false"
-                    android:contextClickable="false"
-                    android:gravity="center" />
+                    android:visibility="gone"
+                    android:id="@+id/linear_layout_add_medication_low_supply_value">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:inputType="textPersonName|number"
+                        android:ems="10"
+                        android:id="@+id/edit_text_add_medication_low_supply"
+                        android:layout_weight="3"
+                        android:gravity="right|center"
+                        android:hint="Enter low supply value" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="UNITS"
+                        android:inputType="none"
+                        android:ems="10"
+                        android:id="@+id/text_view_add_medication_low_supply_units"
+                        android:layout_weight="2"
+                        android:textAlignment="center"
+                        android:clickable="false"
+                        android:contextClickable="false"
+                        android:gravity="center" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -172,7 +201,8 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
             <TextView
                     android:text="Method Taken"
@@ -192,7 +222,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
                 <TextView
                     android:text="Instruction"
@@ -209,10 +240,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
                 <TextView
                     android:text="Notes"
