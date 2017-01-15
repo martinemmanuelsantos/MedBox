@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.martinemmanuelsantos.medbox.MedicationScheduleActivity">
+    tools:context="com.martinemmanuelsantos.medbox.activities.MedicationScheduleActivity">
 
     <include layout="@layout/content_medication_schedule"
         android:layout_height="match_parent"

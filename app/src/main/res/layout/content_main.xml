@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.martinemmanuelsantos.medbox.MainActivity"
+    tools:context="com.martinemmanuelsantos.medbox.activities.MainActivity"
     tools:showIn="@layout/activity_main"
     android:orientation="vertical">
 
@@ -22,7 +22,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.martinemmanuelsantos.medbox.CurrentDateTimeFragment"
+            android:name="com.martinemmanuelsantos.medbox.fragments.CurrentDateTimeFragment"
             android:id="@+id/fragment_main_date"
             tools:layout="@layout/fragment_current_date_time" />
 
@@ -33,7 +33,7 @@
 
             <fragment
                 android:layout_width="match_parent"
-                android:name="com.martinemmanuelsantos.medbox.NextMedicationFragment"
+                android:name="com.martinemmanuelsantos.medbox.fragments.NextMedicationFragment"
                 android:id="@+id/fragment_next_medication"
                 tools:layout="@layout/fragment_next_medication"
                 android:layout_below="@+id/text_view_main_date"

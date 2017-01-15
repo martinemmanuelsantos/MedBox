@@ -1,10 +1,11 @@
-package com.martinemmanuelsantos.medbox;
+package com.martinemmanuelsantos.medbox.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,12 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.martinemmanuelsantos.medbox.database.Medication;
+import com.martinemmanuelsantos.medbox.database.MedicationSchedule;
+import com.martinemmanuelsantos.medbox.database.ScheduleTime;
+import com.martinemmanuelsantos.medbox.utils.DateTimeUtils;
+import com.martinemmanuelsantos.medbox.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,7 +39,7 @@ public class MedicationScheduleActivity extends AppCompatActivity {
     /* UI Elements */
     private static EditText editTextStartDate, editTextEndDate, editTextWeekdays, editTextDaysOfMonth;
     private Spinner spinnerInterval;
-    private Switch switchIndefinite, switchAlert, switchSnooze;
+    private Switch switchIndefinite, switchAlerts, switchSnooze;
     private LinearLayout parentViewDoseTimes;
     private Button buttonAddDose, buttonAddMedication;
 
@@ -44,16 +51,40 @@ public class MedicationScheduleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medication_schedule);
 
+        // Create UI elements
         createEditTexts();
         createSpinners();
         createSwitches();
         createLinearLayouts();
         createButtons();
 
+        // Retrieve Medication object
+        initializeExtras();
+
     }
+
+    //region Intent
+
+    private void initializeExtras() {
+
+        // Retrieve Medication object
+        Intent intent = getIntent();
+        final Medication medication = (Medication) intent.getSerializableExtra("medicationObject");
+        Button buttonSkip = (Button) findViewById(R.id.button_medication_schedule_skip);
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), medication.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    //endregion
 
     //region Create UI elements and set listeners
 
@@ -63,9 +94,6 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         editTextEndDate = (EditText) findViewById(R.id.edit_text_medication_schedule_end_date);
         editTextWeekdays = (EditText) findViewById(R.id.edit_text_medication_schedule_weekdays);
         editTextDaysOfMonth = (EditText) findViewById(R.id.edit_text_medication_schedule_monthdays);
-
-        // Use the current time as the default date/time value
-        DateTimeHelper date = new DateTimeHelper(calendar);
 
         // Show date picker dialog
         editTextStartDate.setOnClickListener(new View.OnClickListener() {
@@ -114,18 +142,22 @@ public class MedicationScheduleActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.GONE);
                         findViewById(R.id.linear_layout_medication_schedule_weekdays).setVisibility(View.GONE);
                         findViewById(R.id.linear_layout_medication_schedule_monthdays).setVisibility(View.GONE);
                         break;
                     case 1:
+                        findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.VISIBLE);
                         findViewById(R.id.linear_layout_medication_schedule_weekdays).setVisibility(View.GONE);
                         findViewById(R.id.linear_layout_medication_schedule_monthdays).setVisibility(View.GONE);
                         break;
                     case 2:
+                        findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.VISIBLE);
                         findViewById(R.id.linear_layout_medication_schedule_weekdays).setVisibility(View.VISIBLE);
                         findViewById(R.id.linear_layout_medication_schedule_monthdays).setVisibility(View.GONE);
                         break;
                     case 3:
+                        findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.VISIBLE);
                         findViewById(R.id.linear_layout_medication_schedule_weekdays).setVisibility(View.GONE);
                         findViewById(R.id.linear_layout_medication_schedule_monthdays).setVisibility(View.VISIBLE);
                         break;
@@ -142,7 +174,7 @@ public class MedicationScheduleActivity extends AppCompatActivity {
     private void createSwitches() {
 
         switchIndefinite = (Switch) findViewById(R.id.switch_medication_schedule_indefinite);
-        switchAlert = (Switch) findViewById(R.id.switch_medication_schedule_alert);
+        switchAlerts = (Switch) findViewById(R.id.switch_medication_schedule_alert);
         switchSnooze = (Switch) findViewById(R.id.switch_medication_schedule_snooze);
 
         // Show the end date EditText if the user does not want to take the medication indefinitely
@@ -150,9 +182,9 @@ public class MedicationScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (switchIndefinite.isChecked()) {
-                    findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.GONE);
+                    findViewById(R.id.edit_text_medication_schedule_end_date).setVisibility(View.GONE);
                 } else {
-                    findViewById(R.id.linear_layout_medication_schedule_end_date).setVisibility(View.VISIBLE);
+                    findViewById(R.id.edit_text_medication_schedule_end_date).setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -187,7 +219,13 @@ public class MedicationScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // TODO: Write data from this activity into database then move on to next activity
+                MedicationSchedule schedule = buildMedicationSchedule();
+                ArrayList<ScheduleTime> times = buildScheduleTimes();
+
+                if (schedule == null) { return; }
+                if (times == null) { return; }
+
+                // TODO: Write medication, schedule and times objects to database
 
                 // Go back to the MainActivity
                 Intent intent = new Intent(MedicationScheduleActivity.this, MainActivity.class);
@@ -220,9 +258,8 @@ public class MedicationScheduleActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 // Set the text of parentEditText to the selected date on the date picker dialog
-                calendar.set(year, month, day);
-                DateTimeHelper currentDate = new DateTimeHelper(calendar);
-                parentEditText.setText(currentDate.getFormattedDate());
+                calendar.set(year, month, day, 0, 0, 0);
+                parentEditText.setText(DateTimeUtils.getDateUIFormatted(calendar, DateTimeUtils.FORMAT_UI));
 
             }
         }, year, month, day);
@@ -237,22 +274,23 @@ public class MedicationScheduleActivity extends AppCompatActivity {
      */
     public void showTimePickerDialog(final EditText parentEditText) {
 
-        // Initial time values (set to current time)
-        Calendar currentTime = Calendar.getInstance();
-        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = currentTime.get(Calendar.MINUTE);
+        // Ensure the time values are set to current time
+        final Calendar currentCalendar = Calendar.getInstance();
+        int hour = currentCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = currentCalendar.get(Calendar.MINUTE);
 
         // Create the TimePickerDialog
         TimePickerDialog timePickerDialog;
         timePickerDialog = new TimePickerDialog(MedicationScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                String formattedTime = DateTimeHelper.getTimeFormatted(hourOfDay, minute);
+                currentCalendar.set(0, 0, 0, hourOfDay, minute);
                 // Set the text of parentEditText to the selected time on the date picker dialog
-                parentEditText.setText(formattedTime);
+                parentEditText.setText(DateTimeUtils.getTimeFormatted(currentCalendar, DateTimeUtils.FORMAT_UI));
             }
         }, hour, minute, false);
         timePickerDialog.show();
+
     }
 
     /**
@@ -277,7 +315,7 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         });
 
         // Set the logic of the OK button
-        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // Make a copy of all the items in the arrayResource
@@ -305,7 +343,7 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         });
 
         // Discard the selected checkbox items
-        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // removes the AlertDialog in the screen
@@ -313,6 +351,186 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         });
 
         builder.show();
+
+    }
+
+    //endregion
+
+    //region MedicationSchedule Builder
+
+    private MedicationSchedule buildMedicationSchedule() {
+
+        MedicationSchedule schedule = new MedicationSchedule();
+
+        // Start Date
+        String startDate = editTextStartDate.getText().toString();
+        // Check if the EditText is empty
+        if (startDate.matches("")) {
+
+            // Highlight the color of the empty EditText, notify the user and exit onClick
+            editTextStartDate.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+            Toast.makeText(getApplicationContext(), "Please enter a start date", Toast.LENGTH_LONG).show();
+            return null;
+
+        } else {
+
+            // Save start date and return EditText highlight to original state
+            schedule.setStartDate(startDate);
+            editTextStartDate.getBackground().setColorFilter(null);
+
+        }
+
+        // Is Indefinite
+        schedule.setIndefinite(switchIndefinite.isChecked());
+
+        // Intervals
+        String selectedInterval = spinnerInterval.getSelectedItem().toString();
+
+        // End Date
+        // Only proceed if the
+        if (editTextEndDate.isShown()) {
+            //if (!switchIndefinite.isChecked()) {
+                String endDate = editTextEndDate.getText().toString();
+                // Check if the EditText is empty
+                if (endDate.matches("")) {
+
+                    // Highlight the color of the empty EditText, notify the user and exit onClick
+                    editTextEndDate.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                    Toast.makeText(getApplicationContext(), "Please enter a end date", Toast.LENGTH_LONG).show();
+                    return null;
+
+                } else {
+
+                    // Save end date and return EditText highlight to original state
+                    schedule.setStartDate(endDate);
+                    editTextEndDate.getBackground().setColorFilter(null);
+
+                }
+            //}
+        }
+
+        // Weekdays
+        // Only check if spinner is set to weekly
+        if (editTextWeekdays.isShown()) {
+            String weekdays = editTextWeekdays.getText().toString();
+            // Check if the EditText is empty
+            if (weekdays.matches("")) {
+
+                // Highlight the color of the empty EditText, notify the user and exit onClick
+                editTextWeekdays.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(), "Please enter at least one weekday", Toast.LENGTH_LONG).show();
+                return null;
+
+            } else {
+
+                // Save weekdays and return EditText highlight to original state
+                schedule.setWeekdays(checkedWeekdays);
+                editTextEndDate.getBackground().setColorFilter(null);
+
+            }
+        }
+
+        // Monthdays
+        // Only check if spinner is set to monthly
+        if (editTextDaysOfMonth.isShown()) {
+            String daysOfMonth = editTextDaysOfMonth.getText().toString();
+            // Check if the EditText is empty
+            if (daysOfMonth.matches("")) {
+
+                // Highlight the color of the empty EditText, notify the user and exit onClick
+                editTextDaysOfMonth.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(), "Please enter at least one day of the month", Toast.LENGTH_LONG).show();
+                return null;
+
+            } else {
+
+                // Save weekdays and return EditText highlight to original state
+                schedule.setDaysOfMonth(checkedDaysOfTheMonth);
+                editTextEndDate.getBackground().setColorFilter(null);
+
+            }
+        }
+
+        // Interval
+        schedule.setInterval(spinnerInterval.getSelectedItemId());
+
+        // Is Alerts Enabled
+        schedule.setAlertsEnabled(switchAlerts.isChecked());
+
+        // Is Snooze Enabled
+        schedule.setSnoozeEnabled(switchSnooze.isChecked());
+
+        return schedule;
+
+    }
+
+    //endregion
+
+    //region ScheduleTime Builder
+
+    private ArrayList<ScheduleTime> buildScheduleTimes() {
+
+        ArrayList<ScheduleTime> scheduleTimes = new ArrayList<ScheduleTime>();
+
+        for (int i = 0; i < parentViewDoseTimes.getChildCount(); i++) {
+
+            ScheduleTime time = new ScheduleTime();
+            View rowView = parentViewDoseTimes.getChildAt(i);
+
+            // Time
+            EditText childDoseTime = (EditText) rowView.findViewById(R.id.edit_text_add_times_dose_time);
+            String doseTime = childDoseTime.getText().toString();
+            // Check if the EditText is empty
+            if (doseTime.matches("")) {
+
+                // Highlight the color of the empty EditText, notify the user and exit onClick
+                childDoseTime.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(), "Please fill in all dose time entries", Toast.LENGTH_LONG).show();
+                return null;
+
+            } else {
+
+                // Save weekdays and return EditText highlight to original state
+                time.setTime(doseTime);
+                childDoseTime.getBackground().setColorFilter(null);
+
+            }
+
+            // Dose Count
+            EditText childDoseCount = (EditText) rowView.findViewById(R.id.edit_text_add_times_dose_count);
+            String doseCount = childDoseCount.getText().toString();
+            // Check if the EditText is empty
+            if (doseCount.matches("")) {
+
+                // Highlight the color of the empty EditText, notify the user and exit onClick
+                childDoseCount.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(), "Please fill in all dose count entries", Toast.LENGTH_LONG).show();
+                return null;
+
+            } else {
+
+                int doseCountNum = Integer.parseInt(doseCount);
+                if (doseCountNum < 1) {
+
+                    // Highlight the color of the empty EditText, notify the user and exit onClick
+                    childDoseCount.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                    Toast.makeText(getApplicationContext(), "All dose counts must be at least 1", Toast.LENGTH_LONG).show();
+                    return null;
+
+                } else {
+
+                    // Save weekdays and return EditText highlight to original state
+                    time.setDoseCount(Integer.parseInt(doseCount));
+                    childDoseCount.getBackground().setColorFilter(null);
+
+
+                }
+
+            }
+
+        }
+
+        return scheduleTimes;
 
     }
 
@@ -333,6 +551,10 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         final ImageButton imageButtonAdd = (ImageButton) rowView.findViewById(R.id.image_button_add_times_add);
         final EditText editTextDoseTime = (EditText) rowView.findViewById(R.id.edit_text_add_times_dose_time);
         final EditText editTextDoseCount = (EditText) rowView.findViewById(R.id.edit_text_add_times_dose_count);
+
+        // Remove any highlights on the EditTexts
+        editTextDoseTime.getBackground().setColorFilter(null);
+        editTextDoseCount.getBackground().setColorFilter(null);
 
         // Decrease the dose count
         imageButtonSubtract.setOnClickListener(new View.OnClickListener() {
@@ -375,7 +597,7 @@ public class MedicationScheduleActivity extends AppCompatActivity {
         });
 
         // Add the row at the END of the parent view
-        parentViewDoseTimes.addView(rowView, parentViewDoseTimes.getChildCount() - 1);
+        parentViewDoseTimes.addView(rowView, parentViewDoseTimes.getChildCount());
     }
 
     // Add a row

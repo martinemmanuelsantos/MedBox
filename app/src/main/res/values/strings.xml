@@ -2,10 +2,11 @@
     <string name="app_name">MedBox</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Button Labels-->
+    <!-- Button Labels and Entries-->
 
-    <string name="OK">OK</string>
-    <string name="Cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="custom">Custom</string>
 
     <!-- MainActivity-->
 
@@ -20,7 +21,7 @@
         <item>Sprays</item>
         <item>Tablets</item>
         <item>Teaspoons</item>
-        <item>Other</item>
+        <item>@string/custom</item>
     </string-array>
     <string-array name="method_taken_names">
         <item>Oral</item>
@@ -28,7 +29,7 @@
         <item>Sublingual</item>
         <item>Inhalation</item>
         <item>Injection</item>
-        <item>Other</item>
+        <item>@string/custom</item>
     </string-array>
     <string-array name="instruction_names">
         <item>No Instruction</item>
@@ -38,11 +39,15 @@
     </string-array>
 
     <!-- MedicationScheduleActivity-->
+    <string name="one_time_dose">One Time Dose</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
     <string-array name="dosage_intervals">
-        <item>One Time Dose</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Monthly</item>
+        <item>@string/one_time_dose</item>
+        <item>@string/daily</item>
+        <item>@string/weekly</item>
+        <item>@string/monthly</item>
     </string-array>
     <string-array name="days_of_the_week">
         <item>Monday</item>

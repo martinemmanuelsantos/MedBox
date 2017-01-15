@@ -1,4 +1,4 @@
-package com.martinemmanuelsantos.medbox;
+package com.martinemmanuelsantos.medbox.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +9,28 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.martinemmanuelsantos.medbox.database.MedBoxDatabaseHandler;
+import com.martinemmanuelsantos.medbox.R;
+
 public class MainActivity extends AppCompatActivity {
 
     /* UI Elements */
     private Button buttonMedicineLog, buttonMedicineList, buttonAddMedicine;
 
+    MedBoxDatabaseHandler medBoxDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create UI elements
         createButtons();
+
+        // Create database
+        medBoxDB = new MedBoxDatabaseHandler(this);
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.martinemmanuelsantos.medbox;
+package com.martinemmanuelsantos.medbox.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.martinemmanuelsantos.medbox.utils.DateTimeUtils;
+import com.martinemmanuelsantos.medbox.R;
+
+import java.util.Calendar;
 
 public class CurrentDateTimeFragment extends Fragment {
     TextView textViewDayNumber, textViewMonthYear, textViewDay;
@@ -26,11 +31,11 @@ public class CurrentDateTimeFragment extends Fragment {
 
     private void updateDateTime() {
 
-        DateTimeHelper date = new DateTimeHelper();
+        Calendar calendar = Calendar.getInstance();
 
-        textViewDayNumber.setText(Integer.toString(date.day));
-        textViewMonthYear.setText(date.monthFormatted + ", " + date.year);
-        textViewDay.setText(date.dayFormatted + ", " + date.time);
+        textViewDayNumber.setText(Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+        textViewMonthYear.setText(DateTimeUtils.getMonthOfYear(calendar) + ", " + Integer.toString(calendar.get(Calendar.YEAR)));
+        textViewDay.setText(DateTimeUtils.getDayOfWeek(calendar) + ", " + DateTimeUtils.getTimeFormatted(calendar, DateTimeUtils.FORMAT_UI));
 
     }
 

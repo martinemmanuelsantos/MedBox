@@ -46,49 +46,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
-
-            <Switch
-                android:text="Use Medication Indefinitely"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/switch_medication_schedule_indefinite"
-                android:padding="@dimen/element_margin"
-                android:checked="true" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:id="@+id/linear_layout_medication_schedule_end_date"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
-
-                <TextView
-                    android:text="End Date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/edit_text_medication_schedule_end_date"
-                    android:clickable="false"
-                    android:contextClickable="false"
-                    android:editable="false"
-                    android:focusableInTouchMode="false"
-                    android:hint="End Date" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:animateLayoutChanges="true"
             android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
 
@@ -105,6 +62,48 @@
                 android:entries="@array/dosage_intervals"
                 android:spinnerMode="dialog" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:id="@+id/linear_layout_medication_schedule_end_date"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+
+                <TextView
+                    android:text="End Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Switch
+                    android:text="Use Medication Indefinitely"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switch_medication_schedule_indefinite"
+                    android:padding="@dimen/element_margin" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/edit_text_medication_schedule_end_date"
+                    android:clickable="false"
+                    android:contextClickable="false"
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="End Date" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +129,8 @@
                 android:clickable="false"
                 android:contextClickable="false"
                 android:editable="false"
-                android:focusableInTouchMode="false" />
+                android:focusableInTouchMode="false"
+                android:hint="Weekdays" />
         </LinearLayout>
 
         <LinearLayout
@@ -156,7 +156,8 @@
                 android:clickable="false"
                 android:contextClickable="false"
                 android:editable="false"
-                android:focusableInTouchMode="false" />
+                android:focusableInTouchMode="false"
+                android:hint="Days of the Month" />
 
         </LinearLayout>
 
@@ -213,9 +214,16 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:id="@+id/linear_layout_add_times_rows">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/linear_layout_add_times_rows">
+
+                </LinearLayout>
 
                 <Button
                     android:text="Add Another Dose"
@@ -223,6 +231,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/button_add_medication_add_dose"
                     style="@style/Widget.AppCompat.Button.Borderless" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -233,6 +242,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_medication_schedule_add_medication"
             style="@style/Widget.AppCompat.Button.Colored" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+
+            <Button
+                android:text="---SKIP---"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_medication_schedule_skip" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
