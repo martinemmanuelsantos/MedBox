@@ -1,7 +1,11 @@
 package com.martinemmanuelsantos.medbox.utils;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -10,24 +14,31 @@ import java.util.Locale;
 
 public class DateTimeUtils {
 
+    // Constants
     public static final int FORMAT_UI = 1;
     public static final int FORMAT_SQLITE = 2;
 
-    public static String getDateUIFormatted(Calendar calendar, int format) {
+    // Time and date formats
+    // TODO Make timeFormatUI a shared preference
+    public static final SimpleDateFormat timeFormatUI = new SimpleDateFormat("h:mm a", Locale.US);             // UI Formatted time
+    public static final SimpleDateFormat timeFormatSQLite = new SimpleDateFormat("HH:mm");                     // SQLite Formatted time
+    public static final SimpleDateFormat dateFormatUI = new SimpleDateFormat("EEEE, MMMM dd, yyyy");                // SQLite Formatted date
+    public static final SimpleDateFormat dateFormatSQLite = new SimpleDateFormat("yyyy-MM-dd");                // SQLite Formatted date
 
-        SimpleDateFormat formatSQLite = new SimpleDateFormat("yyyy-MM-dd");
+
+    public static String getDateUIFormatted(Calendar calendar, int format) {
 
         String dateFormatted;
 
         switch (format) {
             case FORMAT_UI:
-                dateFormatted = getDayOfWeek(calendar) + ", " + getMonthOfYear(calendar) + " " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(Calendar.YEAR);
+                dateFormatted = dateFormatUI.format(calendar.getTime());
                 break;
             case FORMAT_SQLITE:
-                dateFormatted = formatSQLite.format(calendar.getTime());
+                dateFormatted = dateFormatSQLite.format(calendar.getTime());
                 break;
             default:
-                dateFormatted = formatSQLite.format(calendar.getTime());
+                dateFormatted = dateFormatSQLite.format(calendar.getTime());
                 break;
         }
 
@@ -37,24 +48,45 @@ public class DateTimeUtils {
 
     public static String getTimeFormatted(Calendar calendar, int format) {
 
-        SimpleDateFormat formatUI = new SimpleDateFormat("h:mm a", Locale.US);             // UI Format
-        SimpleDateFormat formatSQLite = new SimpleDateFormat("HH:mm");                     // SQLite Format
-
         String timeFormatted;
 
         switch (format) {
             case FORMAT_UI:
-                timeFormatted = formatUI.format(calendar.getTime());
+                timeFormatted = timeFormatUI.format(calendar.getTime());
                 break;
             case FORMAT_SQLITE:
-                timeFormatted = formatSQLite.format(calendar.getTime());
+                timeFormatted = timeFormatSQLite.format(calendar.getTime());
                 break;
             default:
-                timeFormatted = formatSQLite.format(calendar.getTime());
+                timeFormatted = timeFormatSQLite.format(calendar.getTime());
                 break;
         }
 
         return timeFormatted;
+
+    }
+
+    public static String convertToSqliteDate(String uiDate) {
+
+        Date date = null;
+        try {
+            date = dateFormatUI.parse(uiDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateFormatSQLite.format(date);
+
+    }
+
+    public static String convertToSqliteTime(String uiTime) {
+
+        Date time = null;
+        try {
+            time= timeFormatUI.parse(uiTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timeFormatSQLite.format(time);
 
     }
 

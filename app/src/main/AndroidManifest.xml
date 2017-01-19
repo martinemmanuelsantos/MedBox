@@ -20,6 +20,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.MedicationListActivity" >
+        </activity>
+        <activity
             android:name=".activities.AddMedicationActivity" >
         </activity>
         <activity
@@ -30,6 +33,11 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <provider
+            android:exported="false"
+            android:authorities="com.martinemmanuelsantos.medbox"
+            android:name=".database.MedBoxProvider" ></provider>
+
     </application>
 
 </manifest>

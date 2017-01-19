@@ -1,4 +1,4 @@
-package com.martinemmanuelsantos.medbox.database;
+package com.martinemmanuelsantos.medbox.models;
 
 /**
  * Created by nutel on 1/14/2017.
@@ -31,7 +31,7 @@ public class ScheduleTime {
         this.scheduleID = scheduleID;
     }
 
-    public String getTime() {
+    public String getDoseTime() {
         return time;
     }
 

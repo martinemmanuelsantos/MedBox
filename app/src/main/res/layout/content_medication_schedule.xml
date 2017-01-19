@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Start Date"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="How often?"
@@ -68,7 +68,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -77,7 +77,7 @@
                 android:animateLayoutChanges="true"
                 android:id="@+id/linear_layout_medication_schedule_end_date"
                 android:visibility="gone"
-                android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+                android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
                 <TextView
                     android:text="End Date"
@@ -113,7 +113,7 @@
             android:animateLayoutChanges="true"
             android:id="@+id/linear_layout_medication_schedule_weekdays"
             android:visibility="gone"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Weekdays"
@@ -140,7 +140,7 @@
             android:animateLayoutChanges="true"
             android:id="@+id/linear_layout_medication_schedule_monthdays"
             android:visibility="gone"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Days of the Month"
@@ -166,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Notifications"
@@ -204,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Time(s)"
@@ -248,15 +248,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-
-            <Button
-                android:text="---SKIP---"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_medication_schedule_skip" />
         </LinearLayout>
 
     </LinearLayout>

@@ -24,12 +24,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
-
-                <TextView
-                    android:text="Medication Name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
             <EditText
                 android:layout_width="match_parent"
@@ -37,16 +33,23 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/edit_text_add_medication_name"
-                android:hint="Medication Name" />
+                android:hint="Medication Name"
+                android:textAlignment="center" />
 
         </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="200sp"
+            android:id="@+id/view_pager_add_medication_icon_selector"></android.support.v4.view.ViewPager>
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                     android:text="Prescription"
@@ -62,18 +65,13 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            android:id="@+id/image_view_add_medication_icon"
-            android:layout_height="200sp" />
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Type of Dose"
@@ -113,7 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                 android:text="Total Supply"
@@ -203,7 +202,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
             <TextView
                     android:text="Method Taken"
@@ -238,32 +238,34 @@
 
         </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
+
+            <TextView
+                android:text="Instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+                android:id="@+id/spinner_add_medication_instruction"
+                android:entries="@array/instruction_names"
+                android:padding="10dp"
+                android:spinnerMode="dialog" />
 
-                <TextView
-                    android:text="Instruction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinner_add_medication_instruction"
-                    android:entries="@array/instruction_names"
-                    android:padding="10dp"
-                    android:spinnerMode="dialog" />
-
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/linear_layout_bottom_margin">
+            android:layout_marginBottom="@dimen/linear_layout_top_bottom_margin"
+            android:layout_marginTop="@dimen/linear_layout_top_bottom_margin">
 
                 <TextView
                     android:text="Notes"

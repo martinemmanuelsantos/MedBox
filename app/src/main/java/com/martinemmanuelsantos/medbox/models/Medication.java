@@ -1,4 +1,4 @@
-package com.martinemmanuelsantos.medbox.database;
+package com.martinemmanuelsantos.medbox.models;
 
 import java.io.Serializable;
 
@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 public class Medication implements Serializable {
 
-    long medicationID;
-    String medicationName;
+    long _ID;
+    long icon;
+    String name;
     boolean prescription;
     String doseType;
     long remainingSupply;
@@ -27,7 +28,8 @@ public class Medication implements Serializable {
 
     @Override
     public String toString() {
-        return getMedicationName() + ", " +
+        return getIcon() + ", " +
+                getName() + ", " +
                 isPrescription() + ", " +
                 getDoseType() + ", " +
                 getRemainingSupply() + ", " +
@@ -42,6 +44,15 @@ public class Medication implements Serializable {
     //endregion
 
     //region Getters and Setters
+
+
+    public long getIcon() {
+        return icon;
+    }
+
+    public void setIcon(long icon) {
+        this.icon = icon;
+    }
 
     public boolean isLowSupplyWarning() {
         return lowSupplyWarning;
@@ -75,20 +86,20 @@ public class Medication implements Serializable {
         this.lowSupplyValue = lowSupplyValue;
     }
 
-    public long getMedicationID() {
-        return medicationID;
+    public long get_ID() {
+        return _ID;
     }
 
-    public void setMedicationID(long medicationID) {
-        this.medicationID = medicationID;
+    public void set_ID(long _ID) {
+        this._ID = _ID;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public String getName() {
+        return name;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getMethodTaken() {

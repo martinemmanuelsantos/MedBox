@@ -1,4 +1,4 @@
-package com.martinemmanuelsantos.medbox.database;
+package com.martinemmanuelsantos.medbox.models;
 
 /**
  * Created by nutel on 1/14/2017.

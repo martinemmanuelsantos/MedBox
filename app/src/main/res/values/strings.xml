@@ -92,5 +92,17 @@
         <item>31</item>
     </string-array>
 
+    <!-- IconSelectorSwipeAdapter -->
+    <integer-array name="icons">
+        <item>@drawable/icon_capsule</item>
+        <item>@drawable/icon_cup</item>
+        <item>@drawable/icon_drop</item>
+        <item>@drawable/icon_injection</item>
+        <item>@drawable/icon_pill</item>
+        <item>@drawable/icon_puff</item>
+        <item>@drawable/icon_spray</item>
+        <item>@drawable/icon_tablet</item>
+        <item>@drawable/icon_teaspoon</item>
+    </integer-array>
 
 </resources>

@@ -1,10 +1,10 @@
 package com.martinemmanuelsantos.medbox.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.martinemmanuelsantos.medbox.R;
-import com.martinemmanuelsantos.medbox.database.Medication;
+import com.martinemmanuelsantos.medbox.adapters.IconSelectorSwipeAdapter;
+import com.martinemmanuelsantos.medbox.database.MedBoxDbHandler;
+import com.martinemmanuelsantos.medbox.models.Medication;
 
 /**
  * Created by nutel on 1/5/2017.
@@ -29,29 +31,33 @@ import com.martinemmanuelsantos.medbox.database.Medication;
 
 public class AddMedicationActivity extends AppCompatActivity {
 
-    /* Constants */
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
     /* UI Elements */
-    private EditText editTextMedicationName, editTextCustomDoseUnits, editTextTotalSupply, editTextLowSupply, editTextCustomMethodTaken, editTextNotes;
+    private EditText editTextMedicationName, editTextCustomDoseUnits, editTextTotalSupply,
+            editTextLowSupply, editTextCustomMethodTaken, editTextNotes;
     private TextView textViewTotalSupplyUnits, textViewLowSupplyUnits;
-    private ImageView imageViewIcon;
     private Spinner spinnerDoseType, spinnerMethodTaken, spinnerInstruction;
     private Switch switchPrescription, switchLowSupplyWarning;
     private Button buttonNextActivity;
 
+    /* Adapters */
+    IconSelectorSwipeAdapter adapaterIconSelector;
+    ViewPager viewPagerIconSelector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medication);
 
         // Create UI elements
         createEditTexts();
         createTextViews();
-        createImageView();
         createSpinners();
         createSwitch();
         createButton();
+
+        // Create custom adapters
+        createSwipeAdapter();
 
     }
 
@@ -97,8 +103,11 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                // Change the any units TextView in the AddMedication activity
                 textViewTotalSupplyUnits.setText(charSequence);
                 textViewLowSupplyUnits.setText(charSequence);
+
             }
 
             @Override
@@ -116,23 +125,6 @@ public class AddMedicationActivity extends AppCompatActivity {
 
     }
 
-    private void createImageView() {
-
-        imageViewIcon = (ImageView) findViewById(R.id.image_view_add_medication_icon);
-
-        // Create an intent to launch the default camera app
-        imageViewIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
-            }
-        });
-
-    }
-
     private void createSpinners() {
 
         spinnerDoseType = (Spinner) findViewById(R.id.spinner_add_medication_dose_type);
@@ -144,6 +136,7 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
                 // If R.string.Custom is selected, show the custom dose unit EditText, otherwise hide it
                 // and set the text to the spinner value
                 if (spinnerDoseType.getSelectedItem().toString().equals(getResources().getString(R.string.custom))) {
@@ -153,6 +146,7 @@ public class AddMedicationActivity extends AppCompatActivity {
                     textViewTotalSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
                     textViewLowSupplyUnits.setText(spinnerDoseType.getSelectedItem().toString());
                 }
+
             }
 
             @Override
@@ -227,11 +221,26 @@ public class AddMedicationActivity extends AppCompatActivity {
 
     //endregion
 
+    //region Custom Adapters
+
+    public void createSwipeAdapter() {
+
+        adapaterIconSelector = new IconSelectorSwipeAdapter(this);
+        viewPagerIconSelector = (ViewPager) findViewById(R.id.view_pager_add_medication_icon_selector);
+        viewPagerIconSelector.setAdapter(adapaterIconSelector);
+
+    }
+
+    //endregion
+
     //region Medication Builder
 
     private Medication buildMedication() {
 
         Medication medication = new Medication();
+
+        // Medication Icon
+        medication.setIcon(viewPagerIconSelector.getCurrentItem());
 
         // Medication Name
         String medicationName = editTextMedicationName.getText().toString();
@@ -239,14 +248,18 @@ public class AddMedicationActivity extends AppCompatActivity {
         if (medicationName.matches("")) {
 
             // Highlight the color of the empty EditText, notify the user and exit onClick
-            editTextMedicationName.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-            Toast.makeText(getApplicationContext(), "Please enter the name of your medication name", Toast.LENGTH_LONG).show();
+            editTextMedicationName.getBackground()
+                    .setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+            Toast.makeText(getApplicationContext(),
+                    "Please enter the name of your medication name",
+                    Toast.LENGTH_LONG)
+                    .show();
             return null;
 
         } else {
 
             // Save medication name and return EditText highlight to original state
-            medication.setMedicationName(medicationName);
+            medication.setName(medicationName);
             editTextMedicationName.getBackground().setColorFilter(null);
 
         }
@@ -263,8 +276,13 @@ public class AddMedicationActivity extends AppCompatActivity {
             if (customDoseType.matches("")) {
 
                 // Highlight the color of the empty EditText, notify the user and exit onClick
-                editTextCustomDoseUnits.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-                Toast.makeText(getApplicationContext(), "Please enter the type of dose for your medication", Toast.LENGTH_LONG).show();
+                editTextCustomDoseUnits.getBackground()
+                        .setColorFilter(getResources()
+                                .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(),
+                        "Please enter the type of dose for your medication",
+                        Toast.LENGTH_LONG)
+                        .show();
                 return null;
 
             } else {
@@ -287,8 +305,12 @@ public class AddMedicationActivity extends AppCompatActivity {
         if (remainingSupply.matches("")) {
 
             // Highlight the color of the empty EditText, notify the user and exit onClick
-            editTextTotalSupply.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-            Toast.makeText(getApplicationContext(), "Please enter your total supply", Toast.LENGTH_LONG).show();
+            editTextTotalSupply.getBackground()
+                    .setColorFilter(getResources()
+                            .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+            Toast.makeText(getApplicationContext(),
+                    "Please enter your total supply",
+                    Toast.LENGTH_LONG).show();
             return null;
 
         } else {
@@ -297,8 +319,13 @@ public class AddMedicationActivity extends AppCompatActivity {
             if (remainingSupplyNum < 0) {
 
                 // Highlight the color of the empty EditText, notify the user and exit onClick
-                editTextTotalSupply.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-                Toast.makeText(getApplicationContext(), "Your total supply cannot be negative", Toast.LENGTH_LONG).show();
+                editTextTotalSupply.getBackground()
+                        .setColorFilter(getResources()
+                                .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(),
+                        "Your total supply cannot be negative",
+                        Toast.LENGTH_LONG)
+                        .show();
                 return null;
 
             } else {
@@ -323,8 +350,12 @@ public class AddMedicationActivity extends AppCompatActivity {
             if (lowSupplyValue.matches("")) {
 
                 // Highlight the color of the empty EditText, notify the user and exit onClick
-                editTextLowSupply.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-                Toast.makeText(getApplicationContext(), "Please enter low supply value", Toast.LENGTH_LONG).show();
+                editTextLowSupply.getBackground()
+                        .setColorFilter(getResources()
+                                .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(),
+                        "Please enter low supply value",
+                        Toast.LENGTH_LONG).show();
                 return null;
 
             } else {
@@ -333,8 +364,13 @@ public class AddMedicationActivity extends AppCompatActivity {
                 if (lowSupplyNum < 0) {
 
                     // Highlight the color of the empty EditText, notify the user and exit onClick
-                    editTextLowSupply.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-                    Toast.makeText(getApplicationContext(), "The low supply value cannot be negative", Toast.LENGTH_LONG).show();
+                    editTextLowSupply.getBackground()
+                            .setColorFilter(getResources()
+                                    .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                    Toast.makeText(getApplicationContext(),
+                            "The low supply value cannot be negative",
+                            Toast.LENGTH_LONG)
+                            .show();
                     return null;
 
                 } else {
@@ -360,8 +396,13 @@ public class AddMedicationActivity extends AppCompatActivity {
             if (customMethodTaken.matches("")) {
 
                 // Highlight the color of the empty EditText, notify the user and exit onClick
-                editTextCustomMethodTaken.getBackground().setColorFilter(getResources().getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
-                Toast.makeText(getApplicationContext(), "Please enter the method taken for your medication", Toast.LENGTH_LONG).show();
+                editTextCustomMethodTaken.getBackground()
+                        .setColorFilter(getResources()
+                                .getColor(R.color.colorInvalid), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(getApplicationContext(),
+                        "Please enter the method taken for your medication",
+                        Toast.LENGTH_LONG)
+                        .show();
                 return null;
 
             } else {
@@ -386,19 +427,6 @@ public class AddMedicationActivity extends AppCompatActivity {
 
         return medication;
 
-    }
-
-    //endregion
-
-    //region Camera Helper Methods
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageViewIcon.setImageBitmap(imageBitmap);
-        }
     }
 
     //endregion

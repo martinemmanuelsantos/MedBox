@@ -1,6 +1,7 @@
 package com.martinemmanuelsantos.medbox.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,15 +10,16 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.martinemmanuelsantos.medbox.database.MedBoxDatabaseHandler;
+import com.martinemmanuelsantos.medbox.database.MedBoxDbHandler;
 import com.martinemmanuelsantos.medbox.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* Database Handler */
+    private MedBoxDbHandler medBoxDB;
+
     /* UI Elements */
     private Button buttonMedicineLog, buttonMedicineList, buttonAddMedicine;
-
-    MedBoxDatabaseHandler medBoxDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize
+        medBoxDB = new MedBoxDbHandler(this);
+
         // Create UI elements
         createButtons();
-
-        // Create database
-        medBoxDB = new MedBoxDatabaseHandler(this);
 
     }
 
@@ -67,24 +69,34 @@ public class MainActivity extends AppCompatActivity {
         buttonMedicineLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create MedicineLogActivity.class and activity_medicine_log.xml
-                Toast.makeText(getApplicationContext(), "Create MedicineLogActivity.class and activity_medicine_log.xml", Toast.LENGTH_LONG).show();;
+
+                Toast.makeText(getApplicationContext(),
+                        "Create MedicineLogActivity.class and activity_medicine_log.xml",
+                        Toast.LENGTH_LONG)
+                        .show();
+
             }
         });
 
         buttonMedicineList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create MedicineListActivity.class and activity_medicine_list.xml
-                Toast.makeText(getApplicationContext(), "Create MedicineListActivity.class and activity_medicine_list.xml", Toast.LENGTH_LONG).show();;
+
+                // Go to the MedicationList activity
+                Intent intent = new Intent(MainActivity.this, MedicationListActivity.class);
+                startActivity(intent);
+
             }
         });
 
         buttonAddMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Go to the AddMedication activity
                 Intent intent = new Intent(MainActivity.this, AddMedicationActivity.class);
                 startActivity(intent);
+
             }
         });
 
